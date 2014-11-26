@@ -43,8 +43,12 @@ struct Rational
     void neg() {
         numerator_ = -numerator_;
     };
+
     void inv();
-    double to_double() const;
+
+    double to_double() const {
+        return double(numerator_) / denominator_;
+    };
 
     Rational& operator+=(Rational const &rational) {
         (*this).add(rational);
@@ -97,12 +101,40 @@ Rational operator/(Rational r1, Rational const& r2) {
   return r1 /= r2;
 }
 
+bool operator==(Rational const& r1, Rational const& r2) {
+    return ((r1 - r2).to_double() == 0) ? true : false;
+
+}
+
+bool operator!=(Rational const& r1, Rational const& r2) {
+    return !(r1 == r2);
+}
+
+bool operator<(Rational const& r1, Rational const& r2) {
+    return (r1 - r2).to_double() < 0 ? true : false;
+}
+
+bool operator>(Rational const& r1, Rational const& r2) {
+    return (!(r1 < r2) && !(r1 == r2));
+}
+
+bool operator<=(Rational const& r1, Rational const& r2) {
+    return (r1 == r2 || r1 < r2);
+}
+
+bool operator>=(Rational const& r1, Rational const& r2) {
+    return (r1 == r2 || !(r1 < r2));
+}
+
 int main() {
-    Rational a(6, 2);
-    Rational b(3, 2);
+    Rational a(3, 3);
+    Rational b(1, 3);
 
+    cout << a.to_double() << ' ' << b.to_double() << '\n';
+    //Rational c = a + b;
+    //c.print_result();
+    if (a > 1)
+        cout << '1';
 
-    a -= b;
-    a.print_result();
     return 0;
 }
