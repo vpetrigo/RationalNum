@@ -81,6 +81,22 @@ private:
     unsigned denominator_;
 };
 
+Rational operator+(Rational r1, Rational const& r2) {
+  return r1 += r2;
+}
+
+Rational operator-(Rational r1, Rational const& r2) {
+  return r1 -= r2;
+}
+
+Rational operator*(Rational r1, Rational const& r2) {
+  return r1 *= r2;
+}
+
+Rational operator/(Rational r1, Rational const& r2) {
+  return r1 /= r2;
+}
+
 int main() {
     Rational a(6, 2);
     Rational b(3, 2);
