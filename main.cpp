@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cassert>
 
 using namespace std;
 
@@ -9,8 +10,11 @@ struct Rational
 
     void print_result(void) {
         int t_num = getNumerator_();
+        unsigned d_num = getDenominator_();
         if (!t_num)
             cout << "0\n";
+        else if (d_num == 1)
+            cout << t_num << '\n';
         else
             cout << t_num << '/' << getDenominator_() << '\n';
     }
@@ -44,41 +48,49 @@ struct Rational
         numerator_ = -numerator_;
     };
 
-    void inv();
+    void inv() {
+        int tmp = numerator_;
+        numerator_ = denominator_;
+        denominator_ = unsigned(tmp);
+    };
 
     double to_double() const {
         return double(numerator_) / denominator_;
     };
 
     Rational& operator+=(Rational const &rational) {
-        (*this).add(rational);
+        this->add(rational);
 
         return (*this);
     };
     Rational& operator-=(Rational const &rational) {
-        (*this).sub(rational);
+        this->sub(rational);
 
         return (*this);
     };
     Rational& operator*=(Rational const &rational) {
-        (*this).mul(rational);
+        this->mul(rational);
 
         return (*this);
     };
     Rational& operator/=(Rational const &rational) {
-        (*this).div(rational);
+        this->div(rational);
 
         return (*this);
     };
 
     Rational operator-() {
-        (*this).neg();
+        this->neg();
 
         return (*this);
     };
     Rational operator+() {
         return (*this);
     };
+
+    explicit operator double() const {
+        return this->to_double();
+    }
 
 private:
     int numerator_;
@@ -102,8 +114,7 @@ Rational operator/(Rational r1, Rational const& r2) {
 }
 
 bool operator==(Rational const& r1, Rational const& r2) {
-    return ((r1 - r2).to_double() == 0) ? true : false;
-
+    return double(r1 - r2) == 0 ? true : false;
 }
 
 bool operator!=(Rational const& r1, Rational const& r2) {
@@ -111,7 +122,7 @@ bool operator!=(Rational const& r1, Rational const& r2) {
 }
 
 bool operator<(Rational const& r1, Rational const& r2) {
-    return (r1 - r2).to_double() < 0 ? true : false;
+    return double(r1 - r2) < 0 ? true : false;
 }
 
 bool operator>(Rational const& r1, Rational const& r2) {
@@ -127,14 +138,12 @@ bool operator>=(Rational const& r1, Rational const& r2) {
 }
 
 int main() {
-    Rational a(3, 3);
-    Rational b(1, 3);
+    Rational val1(1, 2);
+    Rational val2(4123, 5687);
+    Rational val3(3, 4);
 
-    cout << a.to_double() << ' ' << b.to_double() << '\n';
-    //Rational c = a + b;
-    //c.print_result();
-    if (a > 1)
-        cout << '1';
+    assert((val1 + val2) > 1);
+    assert(val1 < val3);
 
     return 0;
 }
