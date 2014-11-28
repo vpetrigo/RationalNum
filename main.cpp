@@ -16,7 +16,7 @@ struct Rational
         else if (d_num == 1)
             cout << t_num << '\n';
         else
-            cout << t_num << '/' << getDenominator_() << '\n';
+            cout << t_num << '/' << d_num << '\n';
     }
 
     int getNumerator_() const {
